@@ -2,6 +2,8 @@
 #define ETCPORT_H
 #pragma execution_character_set("utf-8")  
 
+#include "etcconfiger.h"
+
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include <QWidget>
@@ -12,6 +14,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPainter>
+#include <QTextEdit>
 
 
 class etcPortWidget : public QWidget
@@ -31,7 +34,14 @@ public Q_SLOTS:
 	void on_btnLeftClick(void);
 	void on_btnReightClick(void);
 	void on_btnStopClick(void);
+	void AutoRecvDate(void);
+signals:
+    void PositionSignal(pocket);
+
 private:
+
+	QByteArray* lastbuf;
+
 	bool portFlag;
 	QSerialPort mySeriaPort;
 

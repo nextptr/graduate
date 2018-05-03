@@ -1,8 +1,10 @@
 #include "etcport.h"
 #include <QPixmap>
+#include <QDebug>
 
 etcPortWidget::etcPortWidget()
 {
+	lastbuf = new QByteArray;
 	portFlag = false;
 	initWidget();
 	initConnect();
@@ -75,6 +77,7 @@ void etcPortWidget::on_btnGoClick(void)
 {
 	QString str = "0x01";
 	QByteArray str2 = QByteArray::fromHex(str.toLatin1().data());//按十六进制编码接入文
+	qDebug() << " byte " << str2;
 	mySeriaPort.write(str2);
 }
 
@@ -104,6 +107,49 @@ void etcPortWidget::on_btnStopClick(void)
 	QString str = "0x05";
 	QByteArray str2 = QByteArray::fromHex(str.toLatin1().data());//按十六进制编码接入文
 	mySeriaPort.write(str2);
+}
+
+void etcPortWidget::AutoRecvDate(void)
+{
+	QByteArray buf;
+	QByteArray tmpbuf;
+
+	pocket pok;
+	int card;
+	buf = mySeriaPort.readAll(); //从串口中读取数据到buf
+	qDebug() << " orbufsiz  " << buf.size() << " orbuf " << buf;
+	if (!buf.isEmpty())
+	{
+		if (buf.size() != 12)
+		{
+			qDebug() << "las " << lastbuf->size() << " now " << buf.size();
+			if (lastbuf->size() + buf.size() == 12)
+			{
+				tmpbuf = *lastbuf + buf;
+				buf = tmpbuf;
+				lastbuf->clear();
+				qDebug() << " sz " << lastbuf->size() + buf.size() << " bufsiz  " << buf.size() << " buf " << buf;
+				card = buf[10] & 0x000000FF;
+				qDebug() << buf[8] << buf[9] << card ;
+				pok.roadnam = buf[8];
+				pok.roadid = buf[9] & 0x000000FF;
+				pok.roidpos = card;
+				emit PositionSignal(pok);
+			}
+			*lastbuf = buf;
+		}
+		else
+		{
+			qDebug() << "bufsiz  " << buf.size() << " buf " << buf;
+			card = buf[10] & 0x000000FF;
+			qDebug() << buf[8] << buf[9] << card ;
+			pok.roadnam = buf[8];
+			pok.roadid = buf[9] & 0x000000FF;
+			pok.roidpos = card;
+			emit PositionSignal(pok);
+		}
+	}
+	buf.clear();
 }
 
 void etcPortWidget::initWidget(void)
@@ -267,7 +313,6 @@ void etcPortWidget::initWidget(void)
 		m_pGridLayout->addWidget(m_btnReight, 2, 8, 1, 1, Qt::AlignLeft | Qt::AlignTop);
 		m_pGridLayout->addWidget(m_btnStop, 2, 6, 1, 1, Qt::AlignLeft | Qt::AlignTop);
 		m_pGridLayout->addWidget(m_btnKey, 4, 1, 1, 2, Qt::AlignLeft | Qt::AlignVCenter);
-
 	}
 	this->setLayout(m_pGridLayout);
 
@@ -284,6 +329,7 @@ void etcPortWidget::initConnect()
 	connect(m_btnLeft,   &QPushButton::clicked, this, &etcPortWidget::on_btnLeftClick);
 	connect(m_btnReight, &QPushButton::clicked, this, &etcPortWidget::on_btnReightClick);
 	connect(m_btnStop,   &QPushButton::clicked, this, &etcPortWidget::on_btnStopClick);
+	connect(&mySeriaPort, &QSerialPort::readyRead, this, &etcPortWidget::AutoRecvDate);
 }
 
 void etcPortWidget::on_btnShowClick()

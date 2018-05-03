@@ -145,6 +145,9 @@
     <CustomBuild Include="chargewidget.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="etcconfiger.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_etcv1.h">

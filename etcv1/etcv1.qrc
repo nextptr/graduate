@@ -6,5 +6,9 @@
         <file>Resources/img/reight.png</file>
         <file>Resources/img/stop.png</file>
         <file>Resources/img/btnBack.png</file>
+        <file>Resources/img/car1.png</file>
+        <file>Resources/img/car2.png</file>
+        <file>Resources/img/car3.png</file>
+        <file>Resources/img/car4.png</file>
     </qresource>
 </RCC>

@@ -379,7 +379,8 @@ void dbWidget::initWidget(void)
 			m_pLabelScanImage = new QLabel(pGroupScanImage);
 			m_pLabelScanImage->setText(tr("×¥ÅÄ"));
 			m_pLabelScanImage->setGeometry(0, 16, 400, 300);
-			m_pLabelScanImage->setPixmap(QPixmap("./EtcInfo/123.jpg"));
+			//m_pLabelScanImage->setPixmap(QPixmap("./EtcInfo/123.jpg"));
+			m_pLabelScanImage->setPixmap(QPixmap("./Resources/anidog01.jpg"));
 		}
 	}
 	QGridLayout *m_pGridLayout = new QGridLayout(); //²¼¾ÖÆ÷
