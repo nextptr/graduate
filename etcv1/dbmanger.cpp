@@ -185,7 +185,7 @@ bool DBManager::getChargeRecordList(const chargeRecord option, int iIndex, int i
 	}
 	else
 	{
-		sqlSearch += QString("> '1970-01-01 ");
+		sqlSearch += QString("> '1970 - 01 - 01 ");
 	}
 
 	if ("" != option.Remark)
@@ -195,7 +195,7 @@ bool DBManager::getChargeRecordList(const chargeRecord option, int iIndex, int i
 	}
 	else
 	{
-		sqlSearch += QString("' and time <' 2999-12-31 ");
+		sqlSearch += QString("' and time <' 2999 - 12 - 31 ");
 	}
 
 	if ("" != option.PlateNumber)
@@ -430,6 +430,29 @@ bool DBManager::deleteChargeRecord(int id)
 		return false;
 	}
 	return true;
+}
+void DBManager::initCarBalance(etcCar* SmartCar)
+{
+	QSqlQuery sqlQuery(m_db);
+	QString sqlSearch;
+	//设置搜索语句
+	sqlSearch += QString("SELECT * FROM chargerecord WHERE platenumber= '%1'").arg(SmartCar->CarNumber);
+	sqlSearch += QString(" order by id asc;");
+	//查询进出口检测表
+	sqlQuery.prepare(sqlSearch);
+	if (!sqlQuery.exec())
+	{
+		qDebug() << sqlQuery.lastError();
+	}
+	else
+	{
+		chargeRecord tmp;
+		while (sqlQuery.next())
+		{
+			tmp.Balance = sqlQuery.value(6).toString();
+		}
+		SmartCar->money = tmp.Balance.toInt();
+	}
 }
 bool DBManager::openDataBase(const QString & strFileName)
 {

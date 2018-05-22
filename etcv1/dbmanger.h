@@ -2,6 +2,7 @@
 #define DBMANGER_H
 
 #include "etcrecord.h"
+#include "etccar.h"
 
 #include <QThread>
 #include <QSqlDatabase>
@@ -23,6 +24,7 @@ public:
 	bool modifyChargeRecord(const chargeRecord &record);	//ÐÞ¸Ä¼ÇÂ¼
 	bool deleteinspectRecord(int id);	//É¾³ý¼ÇÂ¼
 	bool deleteChargeRecord(int id);	//É¾³ý¼ÇÂ¼
+	void initCarBalance(etcCar*SmartCar);
 
 private:
 	static DBManager*m_pInstance;

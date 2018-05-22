@@ -35,23 +35,45 @@ etcCamera::~etcCamera()
 }
 
 
-void etcCamera::onBtnSnapshot()//拍照
+void etcCamera::onCameraSave(etcCar*m_pcar)//拍照
 {
-	//qDebug() << "xsaxsaxsaxsa123564";
-	bool ok;
-	QDir fileDir(QDir::currentPath());
-	if (!fileDir.exists("EtcInfo")) //确保文件夹存在
+	QString TimStr = QDateTime::currentDateTime().toString("yyyy-MM-dd-hh-mm-ss");
+	QStringList TimStrList = TimStr.split("-");
+
+	QDir mDir(QDir::currentPath());
+	if (!mDir.exists("EtcInfo")) //确保文件夹存在
 	{
-		fileDir.mkdir("EtcInfo");
+		mDir.mkdir("EtcInfo");
 	}
-	QString filename = QInputDialog::getText(this, "filename", "please enter", QLineEdit::Normal, "user", &ok);
-	QString fileSaveName = fileDir.currentPath() + "/EtcInfo/" + filename+".jpg";
+	QDir mDirYear("./EtcInfo");
+	if (!mDirYear.exists(TimStrList[0])) //年
+	{
+		mDirYear.mkdir(TimStrList[0]);
+	}
+	QDir mDirMon("./EtcInfo/" + TimStrList[0]);
+	if (!mDirMon.exists(TimStrList[1])) //年
+	{
+		mDirMon.mkdir(TimStrList[1]);
+	}
+	QDir mDirDay("./EtcInfo/" + TimStrList[0] + "/" + TimStrList[1]);
+	if (!mDirDay.exists(TimStrList[2])) //年
+	{
+		mDirDay.mkdir(TimStrList[2]);
+	}
+
+	QString ImgSaveName;//拍照文件名
+	for (int i = 0;i < 6;i++)
+	{
+		ImgSaveName += TimStrList[i];
+	}
+	ImgSaveName += m_pcar->CarNumber + ".png";
+
+	QString fileSaveName = mDir.currentPath() + "/EtcInfo/" + TimStrList[0] + "/" + TimStrList[1] + "/" + TimStrList[2] + "/"+ ImgSaveName;//保存路径
+
 	camera->setCaptureMode(QCamera::CaptureStillImage);
 	camera->searchAndLock();
 	imageCapture->capture(fileSaveName);
-	qDebug() << " filename " << filename << endl;
-	qDebug() << " fileSaveName " << fileSaveName << endl;
-	qDebug() << " fileDir.currentPath " << fileDir.currentPath() << endl;
+
 
 	camera->unlock();
 }

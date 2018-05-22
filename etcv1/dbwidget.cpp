@@ -51,7 +51,6 @@ void dbWidget::on_btnInsertClick()
 	mOption.StationId = m_pStationId->currentText();
 	mOption.PlateNumber = m_pPlateNumber->text();
 	mOption.UserName = m_pUserName->text();
-	mOption.UserName = m_pUserName->text();
 	mOption.Result = m_pResult->currentText();
 	mOption.Direction = m_pDirection->currentText();
 
@@ -230,12 +229,15 @@ void dbWidget::initWidget(void)
 		m_pStartTime->setFixedWidth(140);
 		m_pStartTime->setCalendarPopup(true);
 		m_pStartTime->setDisplayFormat("yyyy - MM - dd");
+		m_pStartTime->setDate(QDate::currentDate());
 
 		QLabel *pLabelCondition2 = new QLabel(this);
 		m_pEndTime = new QDateEdit();
 		m_pEndTime->setFixedWidth(140);
 		m_pEndTime->setCalendarPopup(true);
 		m_pEndTime->setDisplayFormat("yyyy - MM - dd");
+		m_pEndTime->setDate(QDate::currentDate());
+
 	
 		QLabel *pLabelCondition3 = new QLabel(this);
 		m_pStationId = new QComboBox();
@@ -298,7 +300,7 @@ void dbWidget::initWidget(void)
 		pGridCondition->addWidget(m_pResult,        5, 1, 1, 1, Qt::AlignLeft | Qt::AlignVCenter);
 		pGridCondition->addWidget(pLabelCondition4, 6, 0, 1, 1, Qt::AlignRight | Qt::AlignVCenter);
 		pGridCondition->addWidget(m_pDirection,     6, 1, 1, 1, Qt::AlignLeft | Qt::AlignVCenter);
-		pGridCondition->addWidget(m_pBtnIndex,      6, 0, 1, 1, Qt::AlignLeft | Qt::AlignVCenter);
+		//pGridCondition->addWidget(m_pBtnIndex,      6, 0, 1, 1, Qt::AlignLeft | Qt::AlignVCenter);
 
 		pGridCondition->setHorizontalSpacing(6);
 		pGridCondition->setVerticalSpacing(6);
@@ -379,8 +381,8 @@ void dbWidget::initWidget(void)
 			m_pLabelScanImage = new QLabel(pGroupScanImage);
 			m_pLabelScanImage->setText(tr("抓拍"));
 			m_pLabelScanImage->setGeometry(0, 16, 400, 300);
-			//m_pLabelScanImage->setPixmap(QPixmap("./EtcInfo/123.jpg"));
-			m_pLabelScanImage->setPixmap(QPixmap("./Resources/anidog01.jpg"));
+			m_pLabelScanImage->setPixmap(QPixmap("./EtcInfo/123.jpg"));
+			//m_pLabelScanImage->setPixmap(QPixmap("./Resources/anidog01.jpg"));
 		}
 	}
 	QGridLayout *m_pGridLayout = new QGridLayout(); //布局器
@@ -421,7 +423,7 @@ void dbWidget::wheelEvent(QWheelEvent * mWhellEvent)
 	mOption.Result = m_pResult->currentText();
 	mOption.Direction = m_pDirection->currentText();
 
-	int pos = m_stepCount - 16 - m_RemoveItemSize; //触发下翻滚轮信号的值，9是一个表格视窗的大小
+	int pos = m_stepCount - 16 - m_RemoveItemSize; //触发下翻滚轮信号的值，16是一个表格视窗的大小
 	if (pos == m_pTableRecord->verticalScrollBar()->value())//下翻查看
 	{
 		m_begingIndex = m_begingIndex + pos; //更新

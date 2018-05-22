@@ -1,7 +1,10 @@
 #ifndef ETCCAMERA_H
 #define ETCCAMERA_H
 
+#include"etccar.h"
+
 #include <QWidget>
+#include <QDate>
 
 class QCamera;
 class QCameraViewfinder;
@@ -14,9 +17,8 @@ class etcCamera : public QWidget
 public:
 	etcCamera(QWidget *parent = 0);
 	~etcCamera();
-
 public Q_SLOTS:
-    void onBtnSnapshot(void);
+    void onCameraSave(etcCar*m_pcar);
 private:
 	QCamera*camera;
 	QCameraViewfinder*viewfinder;

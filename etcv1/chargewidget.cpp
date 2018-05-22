@@ -235,11 +235,13 @@ void chargeWidget::initWidget(void)
 		m_pStartTime->setFixedWidth(110);
 		m_pStartTime->setCalendarPopup(true);
 		m_pStartTime->setDisplayFormat("yyyy - MM - dd");
+		m_pStartTime->setDate(QDate::currentDate());
 		QLabel *pLabelCondition4 = new QLabel(this);
 		m_pEndTime = new QDateEdit();
 		m_pEndTime->setFixedWidth(110);
 		m_pEndTime->setCalendarPopup(true);
 		m_pEndTime->setDisplayFormat("yyyy - MM - dd");
+		m_pEndTime->setDate(QDate::currentDate());
 
 		m_pBtnSearch = new QPushButton();
 		m_pBtnSearch->setFixedHeight(50);
