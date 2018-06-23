@@ -16,6 +16,7 @@ etcCar::etcCar(QString pixmapDir, QString carname, QString username,int myflag)
 	resetFlag = false;
 	//setFlags(QGraphicsItem::ItemIsMovable);
 	setAcceptHoverEvents(true);
+	saveImg = "";
 }
 
 QPainterPath etcCar::shape()
@@ -97,7 +98,7 @@ void etcCar::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, 
 void etcCar::hoverEnterEvent(QGraphicsSceneHoverEvent *)
 {
 	setCursor(Qt::OpenHandCursor);
-	setToolTip("i am car");
+	setToolTip(CarNumber);
 }
 
 //void etcCar::mousePressEvent(QGraphicsSceneMouseEvent *myevent)

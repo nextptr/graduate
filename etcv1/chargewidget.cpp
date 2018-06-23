@@ -268,7 +268,7 @@ void chargeWidget::initWidget(void)
 		pGridCondition->addWidget(pLabelCondition4, 1, 2, 1, 1, Qt::AlignRight | Qt::AlignVCenter);
 		pGridCondition->addWidget(m_pEndTime,       1, 3, 1, 1, Qt::AlignLeft | Qt::AlignVCenter);
 		pGridCondition->addWidget(m_pBtnSearch,     0, 4, 2, 1, Qt::AlignLeft | Qt::AlignVCenter);
-		pGridCondition->addWidget(m_pBtnCharge,     0, 5, 2, 1, Qt::AlignLeft | Qt::AlignVCenter);
+		//pGridCondition->addWidget(m_pBtnCharge,     0, 5, 2, 1, Qt::AlignLeft | Qt::AlignVCenter);
 
 		pGridCondition->setHorizontalSpacing(6);
 		pGridCondition->setVerticalSpacing(6);

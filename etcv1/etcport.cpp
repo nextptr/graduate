@@ -117,20 +117,21 @@ void etcPortWidget::AutoRecvDate(void)
 	pocket pok;
 	int card;
 	buf = mySeriaPort.readAll(); //从串口中读取数据到buf
-	qDebug() << " orbufsiz  " << buf.size() << " orbuf " << buf;
+	//qDebug() << " orbufsiz  " << buf.size() << " orbuf " << buf;
+	qDebug() << "RFID标签信息  " << buf;
 	if (!buf.isEmpty())
 	{
 		if (buf.size() != 12)
 		{
-			qDebug() << "las " << lastbuf->size() << " now " << buf.size();
+			//qDebug() << "las " << lastbuf->size() << " now " << buf.size();
 			if (lastbuf->size() + buf.size() == 12)
 			{
 				tmpbuf = *lastbuf + buf;
 				buf = tmpbuf;
 				lastbuf->clear();
-				qDebug() << " sz " << lastbuf->size() + buf.size() << " bufsiz  " << buf.size() << " buf " << buf;
+				//qDebug() << " sz " << lastbuf->size() + buf.size() << " bufsiz  " << buf.size() << " buf " << buf;
 				card = buf[10] & 0x000000FF;
-				qDebug() << buf[8] << buf[9] << card ;
+				qDebug() <<"RFID标签信息解析 "<< buf[8] << buf[9] << card ;
 				pok.roadnam = buf[8];
 				pok.roadid = buf[9] & 0x000000FF;
 				pok.roidpos = card;
@@ -140,9 +141,9 @@ void etcPortWidget::AutoRecvDate(void)
 		}
 		else
 		{
-			qDebug() << "bufsiz  " << buf.size() << " buf " << buf;
+			//qDebug() << "bufsiz  " << buf.size() << " buf " << buf;
 			card = buf[10] & 0x000000FF;
-			qDebug() << buf[8] << buf[9] << card ;
+			qDebug() << "RFID标签信息解析 " << buf[8] << buf[9] << card ;
 			pok.roadnam = buf[8];
 			pok.roadid = buf[9] & 0x000000FF;
 			pok.roidpos = card;

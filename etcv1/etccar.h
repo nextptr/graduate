@@ -23,6 +23,7 @@ public:
 	QString pixmapstr; //车辆贴图
 	QString CarNumber; //车牌
 	QString userName; //用户名
+	QString saveImg;  //通行拍照
 	int carflag;    //车辆代号	
 	int money;      //车辆余额 
 protected:

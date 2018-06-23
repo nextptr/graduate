@@ -5,67 +5,128 @@
 #include <QPixmap>
 #include <QSequentialAnimationGroup>
 #include <QParallelAnimationGroup>
+#include <QBitmap>
 
-
+//智能车定位
 void etcView::PositonSlot(pocket pok)
 {
+	int pos = pok.roidpos;//字符转int
+	qDebug() << "nam " << pok.roadnam << "id " << pok.roadid << "pos " << pos;
 	if (pok.roadnam == 'L')
 	{
 		if (pok.roadid == '1')
 		{
-			switch (pok.roidpos)
+			if (pos == 1)
 			{
-			case 1:
+				labPositionCar->move(1346, 41);
+			}
+			if (pos == 2)
 			{
-				lab1->setPixmap(QPixmap("./Resources/anidog01.jpg"));
-				lab1->move(1400, 65);
-				lab1->resize(50, 50);
-				lab1->show();
-				qDebug() << " get 1 ";
-			}break;
-			case 2:
+				labPositionCar->move(1267, 41);
+			}
+			if (pos == 3)
 			{
-				lab2->setPixmap(QPixmap("./Resources/anidog02.jpg"));
-				lab2->move(1250, 65);
-				lab2->resize(50, 50);
-				lab2->show();
-				qDebug() << " get 2 ";
-			}break;
-			case 3:
+				labPositionCar->move(1130, 41);
+			}
+			if (pos == 4)
 			{
-				lab3->setPixmap(QPixmap("./Resources/anidog03.jpg"));
-				lab3->move(1100, 65);
-				lab3->resize(50, 50);
-				lab3->show();
-				qDebug() << " get 3 ";
-			}break;
-			case 4:
+				labPositionCar->move(1000, 41);
+			}
+			if (pos == 5)
 			{
-				lab4->setPixmap(QPixmap("./Resources/anidog04.jpg"));
-				lab4->move(950, 65);
-				lab4->resize(50, 50);
-				lab4->show();
-				qDebug() << " get 4 ";
-			}break;
-			case 5:
+				labPositionCar->move(726, 41);
+			}
+			if (pos == 6)
 			{
-				lab5->setPixmap(QPixmap("./Resources/anidog05.jpg"));
-				lab5->move(800, 65);
-				lab5->resize(50, 50);
-				lab5->show();
-				qDebug() << " get 5 ";
-			}break;
-			case 6:
+				labPositionCar->move(644, 41);
+			}
+			if (pos == 7)
 			{
-				lab6->setPixmap(QPixmap("./Resources/anidog06.jpg"));
-				lab6->move(650, 65);
-				lab6->resize(50, 50);
-				lab6->show();
-				qDebug() << " get 6 ";
-			}break;
+				labPositionCar->move(567, 41);
+			}
+		}
+		if (pok.roadid == '2')
+		{
+			if (pos == 1)
+			{
+				labPositionCar->move(456, 895);
+			}
+			if (pos == 2)
+			{
+				labPositionCar->move(544, 895);
+			}
+			if (pos == 3)
+			{
+				labPositionCar->move(655, 895);
+			}
+			if (pos == 4)
+			{
+				labPositionCar->move(706, 895);
+			}
+			if (pos == 5)
+			{
+				labPositionCar->move(823, 895);
+			}
+			if (pos == 6)
+			{
+				labPositionCar->move(998, 895);
+			}
+			if (pos == 7)
+			{
+				labPositionCar->move(1138, 895);
+			}
+			if (pos == 8)
+			{
+				labPositionCar->move(1275, 895);
+			}
+			if (pos == 9)
+			{
+				labPositionCar->move(1364, 895);
 			}
 		}
 	}
+	if (pok.roadnam == 'E')
+	{
+		if (pok.roadid == 'T')
+		{
+			if (pos == 3)
+			{
+				labPositionCar->move(460, 41);
+			}
+			if (pos == 2)
+			{
+				labPositionCar->move(302, 807);
+			}
+		}
+	}
+	if (pok.roadnam == 'G')
+	{
+		if (pok.roadid == '1')
+		{
+			if (pos == 1)
+			{
+				labPositionCar->move(318, 46);
+			}
+			if (pos == 2)
+			{
+				labPositionCar->move(193, 121);
+			}
+			if (pos > 2 && pos < 8)
+			{
+				labPositionCar->move(109, 236 + (pos-3) * 85);
+			}
+			if (pos == 8)
+			{
+				labPositionCar->move(155, 706);
+			}
+			if (pos == 9)
+			{
+				labPositionCar->move(234, 760);
+			}
+		}
+	}
+
+	PositionGif->start();
 }
 //虚拟小车移动
 void etcView::AutoMove(etcCar*carNum)
@@ -80,12 +141,9 @@ void etcView::AutoMove(etcCar*carNum)
 
 
 	QPropertyAnimation*G_anima0 = new QPropertyAnimation(carNum, "pos"); //动画
-	G_anima0->setDuration(5000-320*(carNum->activeFlag));            //根据不同的排队情况，决定不同的用时
+	G_anima0->setDuration(5000 - 320 * (carNum->activeFlag));            //根据不同的排队情况，决定不同的用时
 	G_anima0->setStartValue(QPointF(1350, 78));
-	G_anima0->setEndValue(QPointF(570+ 60*(carNum->activeFlag), 78));//根据不同的排队情况，决定不同的终点
-	
-	//车辆到达收费站
-	animalArive(G_anima0, carNum);
+	G_anima0->setEndValue(QPointF(570 + 60 * (carNum->activeFlag), 78));//根据不同的排队情况，决定不同的终点	
 
 	QPropertyAnimation*G_animaPark = new QPropertyAnimation(carNum, "pos");    //动画
 	G_animaPark->setDuration(10 + (2600+320) * (carNum->activeFlag));          //根据不同的排队情况，决定不同的用时
@@ -112,6 +170,7 @@ void etcView::AutoMove(etcCar*carNum)
 		G_animaPark->setKeyValueAt(0.8127, QPointF(570, 78));
 	}
 	G_animaPark->setKeyValueAt(1, QPointF(570,78));
+	animalArive(G_animaPark, carNum);//到达收费站
 
 	QPropertyAnimation*P_animBrakeBarUp1 = new QPropertyAnimation(brakeBarIn, "geometry"); //抬杆
 	P_animBrakeBarUp1->setDuration(2600);
@@ -148,8 +207,7 @@ void etcView::AutoMove(etcCar*carNum)
 	G_anima3->setDuration(4000);
 	G_anima3->setStartValue(QPointF(145, 715));
 	G_anima3->setEndValue(QPointF(270, 800));
-
-	//到达收费站
+	
 	animalArive(G_anima3, carNum);
 
 	QPropertyAnimation*P_animaBrakeBarUp2 = new QPropertyAnimation(brakeBarOut, "geometry"); //抬杆
@@ -170,6 +228,9 @@ void etcView::AutoMove(etcCar*carNum)
 	P_GroupAnima2->addAnimation(P_anima2);
 
 	animalClock(P_anima2, carNum);
+
+	//到达收费站
+	animalArive(P_anima2, carNum);
 
 	QPropertyAnimation*G_anima4 = new QPropertyAnimation(carNum, "pos"); //动画
 	G_anima4->setDuration(6000);
@@ -322,22 +383,59 @@ void etcView::car4Arive()
 //到达ETC收费和抓拍
 void etcView::arriveStation(etcCar*m_pcar)
 {
-	if (0 == m_pcar->clock) //到达
+
+	//通行记录，抓拍
+	if (3 != m_pcar->clock)
 	{
 		etcRecord mOption;
 		mOption.DetectionTime = QDate::currentDate().toString("yyyy - MM - dd");
-		mOption.StationId = "001";
 		mOption.PlateNumber = m_pcar->CarNumber;
 		mOption.UserName = m_pcar->userName;
 		mOption.Result = "正常";
-		mOption.Direction = "进入";
+		if (0 == m_pcar->clock)
+		{
+			mOption.StationId = "001";
+			mOption.Direction = "进入";
+		}
+		else
+		{
+			mOption.StationId = "003";
+			mOption.Direction = "离开";
+		}
 		mOption.Money = QString::number(m_pcar->money, 10);
 		mOption.Remark = "仿真ETC通行";
-		//DBManager::getInstance()->insertinspectRecord(&mOption);
-	
+		//图片存储索引信息
+		QString TimStr = QDateTime::currentDateTime().toString("yyyy-MM-dd-hh-mm-ss");
+		QStringList TimStrList = TimStr.split("-");
+		QString ImgSaveName;//图片存储名
+		for (int i = 0;i < 6;i++)
+		{
+			ImgSaveName += TimStrList[i];
+		}
+		ImgSaveName += m_pcar->CarNumber + ".jpg";
+		//完成车辆通行的记录
+		mOption.ImgDir = "./EtcInfo/" + TimStrList[0] + "/" + TimStrList[1] + "/" + TimStrList[2] + "/" + ImgSaveName;
+		DBManager::getInstance()->insertinspectRecord(&mOption);
+		//抓拍图片存储
+		screen = QGuiApplication::primaryScreen();
+		QPixmap pixmap = screen->grabWindow(0);
+		QPixmap camera;
+		if (0 == m_pcar->clock)
+		{
+			camera = pixmap.copy(364, 43, 400, 300);
+		}
+		else
+		{
+			camera = pixmap.copy(140, 720, 400, 300);
+		}
+		if (!camera.save(mOption.ImgDir, "jpg"))
+		{
+			qDebug() << "cut save png failed";
+		}
 	}
-	if (3 == m_pcar->clock)  //离开
+	else //离开
 	{
+		//计算扣费信息
 		chargeRecord tmpRecord;
 		tmpRecord.PlateNumber = m_pcar->CarNumber;
 		tmpRecord.UserName = m_pcar->userName;
@@ -346,8 +444,8 @@ void etcView::arriveStation(etcCar*m_pcar)
 		if ((m_pcar->money - 30) < 30)
 		{
 			tmpRecord.Income = QString::number(100, 10);
-			tmpRecord.Balance = QString::number(m_pcar->money +70, 10);
-			m_pcar->money = 70 + m_pcar->money ;
+			tmpRecord.Balance = QString::number(m_pcar->money + 70, 10);
+			m_pcar->money = 70 + m_pcar->money;
 		}
 		else
 		{
@@ -356,23 +454,42 @@ void etcView::arriveStation(etcCar*m_pcar)
 			m_pcar->money = m_pcar->money - 30;
 		}
 		tmpRecord.Remark = "仿真ETC收费";
-		//DBManager::getInstance()->insertChargeRecord(&tmpRecord);
-
-		labCarnum2->setText(m_pcar->CarNumber);
-		labUsername2->setText(m_pcar->userName);
-		labBalance2->setText(QString::number(m_pcar->money, 10));
-		labDirection2->setText("离开");
-		labCharge->setText("30");
-
-		emit etcPicture(m_pcar);
+		//显示车辆通行信息
+		labCarnum2->setText(" " + m_pcar->CarNumber);
+		labUsername2->setText(" " + m_pcar->userName);
+		labBalance2->setText(" " + QString::number(m_pcar->money, 10));
+		labDirection2->setText(" 离开");
+		labCharge->setText(" 30");
+		//存储数据
+		DBManager::getInstance()->insertChargeRecord(&tmpRecord);
 	}
-	
 }
 
-void etcView::onBtnSnapshot()
+void etcView::onbtn_ItcClock()
 {
-	qDebug() << "xsaxsaxsa";
+	QScreen *screen = QGuiApplication::primaryScreen();
+	QString filePathName = "cut-";
+	filePathName += QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
+	filePathName += ".png";
+	QPixmap pixmap = screen->grabWindow(0);
+	QPixmap camera = pixmap.copy(364, 43, 400, 300);
+	if (!camera.save(filePathName, "png"))
+	{
+		qDebug() << "cut save png failed" ;
+	}
+
+	if (itcFlag == false)
+	{
+		itcFlag = true;
+		btn_Itc->setText("ETC模式");
+	}
+	else
+	{
+		btn_Itc->setText("ITC模式");
+		itcFlag = false;
+	}
 }
+
 void etcView::EtcClock()
 {
 	lab_CurrentTime->setText("当前时间:" + QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss ddd"));
@@ -380,14 +497,6 @@ void etcView::EtcClock()
 
 etcView::etcView()
 {
-	lab1 = new QLabel(this);
-	lab2 = new QLabel(this);
-	lab3 = new QLabel(this);
-	lab4 = new QLabel(this);
-	lab5 = new QLabel(this);
-	lab6 = new QLabel(this);
-	
-	lab6->show();
 	park = -1;
 	lastClickTime = new QTime;
 	nowClickTime = new QTime;
@@ -464,6 +573,7 @@ void etcView::mousePressEvent(QMouseEvent * myevent)
 			}
 		}
 	}
+
 }
 void etcView::initConnect()
 {
@@ -471,85 +581,124 @@ void etcView::initConnect()
 	connect(this, &etcView::carFlag, this, &etcView::AutoMove);
 	connect(this, &etcView::carRota, this, &etcView::AutoRota);
 	connect(this, &etcView::carCharge, this, &etcView::arriveStation);
-
+	connect(btn_Itc, &QPushButton::clicked, this, &etcView::onbtn_ItcClock);
+	
 }
 void etcView::initConfig()
 {
+	itcFlag = false;
+	//生成文件夹
 	{
-		/*QLabel *carlab1 = new QLabel(this);
-		carlab1->move(400, 160);
-		carlab1->setFixedWidth(60);
-		carlab1->setText("车牌号");
-		QLabel *carlab2 = new QLabel(this);
-		carlab2->move(400, 180);
-		carlab2->setFixedWidth(60);
-		carlab2->setText("用户名");
-		QLabel *carlab3 = new QLabel(this);
-		carlab3->move(400, 200);
-		carlab3->setFixedWidth(60);
-		carlab3->setText("余额");
-		QLabel *carlab4 = new QLabel(this);
-		carlab4->move(400, 220);
-		carlab4->setFixedWidth(60);
-		carlab4->setText("方向");*/
-
-		//labCarnum1 = new QLabel(this);
-		//labUsername1 = new QLabel(this);
-		//labBalance1 = new QLabel(this);
-		//labDirection1 = new QLabel(this);
-		/*labCarnum1->setFixedWidth(60);
-		labUsername1->setFixedWidth(60);
-		labBalance1->setFixedWidth(60);
-		labDirection1->setFixedWidth(60);
-		labCarnum1->move(460, 160);
-		labUsername1->move(460, 180);
-		labBalance1->move(460, 200);
-		labDirection1->move(460, 220);*/
-
+		QString TimStr = QDateTime::currentDateTime().toString("yyyy-MM-dd-hh-mm-ss");
+		QStringList TimStrList = TimStr.split("-");
+		QDir mDir(QDir::currentPath());
+		if (!mDir.exists("EtcInfo")) //确保文件夹存在
+		{
+			mDir.mkdir("EtcInfo");
+		}
+		QDir mDirYear("./EtcInfo");
+		if (!mDirYear.exists(TimStrList[0])) //年
+		{
+			mDirYear.mkdir(TimStrList[0]);
+		}
+		QDir mDirMon("./EtcInfo/" + TimStrList[0]);
+		if (!mDirMon.exists(TimStrList[1])) //月
+		{
+			mDirMon.mkdir(TimStrList[1]);
+		}
+		QDir mDirDay("./EtcInfo/" + TimStrList[0] + "/" + TimStrList[1]);
+		if (!mDirDay.exists(TimStrList[2])) //日
+		{
+			mDirDay.mkdir(TimStrList[2]);
+		}
 	}
-	
+	//车辆定位动画
+	{
+		labPositionCar = new QLabel(this);
+		labPositionCar->setAlignment(Qt::AlignCenter);
+		labPositionCar->resize(80, 80);
+		PositionGif = new QMovie(this);
+		PositionGif->setFileName("./Resources/img/gif5新文件.gif");
+		PositionGif->setScaledSize(labPositionCar->size());
+		labPositionCar->setMovie(PositionGif);
+		PositionGif->setScaledSize(QSize(80,80));
+		/*labPositionCar->move(567, 41);
+		PositionGif->start();*/
+	}
+	//车辆信息显示牌
 	{
 		QLabel *carlab5 = new QLabel(this);
-		carlab5->move(170, 870);
-		carlab5->setFixedWidth(60);
-		carlab5->setText("车牌号");
 		QLabel *carlab6 = new QLabel(this);
-		carlab6->move(170, 890);
-		carlab6->setFixedWidth(60);
-		carlab6->setText("用户名");
 		QLabel *carlab7 = new QLabel(this);
-		carlab7->move(170, 910);
-		carlab7->setFixedWidth(60);
-		carlab7->setText("缴费");
 		QLabel *carlab8 = new QLabel(this);
-		carlab8->move(170, 930);
-		carlab8->setFixedWidth(60);
-		carlab8->setText("余额");
 		QLabel *carlab9 = new QLabel(this);
+		carlab9->setText("方  向:");
+		carlab5->setText("车牌号:");
+		carlab6->setText("用户名:");
+		carlab7->setText("缴  费:");
+		carlab8->setText("余  额:");
+		carlab5->setFixedHeight(25);
+		carlab6->setFixedHeight(25);
+		carlab7->setFixedHeight(25);
+		carlab8->setFixedHeight(25);
+		carlab9->setFixedHeight(25);
+		carlab5->setFixedWidth(40);
+		carlab6->setFixedWidth(40);
+		carlab7->setFixedWidth(40);
+		carlab8->setFixedWidth(40);
+		carlab9->setFixedWidth(40);
+		carlab5->move(170, 870);
+		carlab6->move(170, 890);
+		carlab7->move(170, 910);
+		carlab8->move(170, 930);
 		carlab9->move(170, 950);
-		carlab9->setFixedWidth(60);
-		carlab9->setText("方向");
+		carlab5->setAutoFillBackground(true);
+		carlab6->setAutoFillBackground(true);
+		carlab7->setAutoFillBackground(true);
+		carlab8->setAutoFillBackground(true);
+		carlab9->setAutoFillBackground(true);
+		carlab5->setStyleSheet("color:rgb(255,170,0);background-color:rgb(0,0,127)");
+		carlab6->setStyleSheet("color:rgb(255,170,0);background-color:rgb(0,0,127)");
+		carlab7->setStyleSheet("color:rgb(255,170,0);background-color:rgb(0,0,127)");
+		carlab8->setStyleSheet("color:rgb(255,170,0);background-color:rgb(0,0,127)");
+		carlab9->setStyleSheet("color:rgb(255,170,0);background-color:rgb(0,0,127)");
+
 		labCarnum2 = new QLabel(this);
 		labUsername2 = new QLabel(this);
 		labBalance2 = new QLabel(this);
 		labDirection2 = new QLabel(this);
 		labCharge = new QLabel(this);
+
+		labCarnum2->setFixedHeight(25);
+		labUsername2->setFixedHeight(25);
+		labBalance2->setFixedHeight(25);
+		labDirection2->setFixedHeight(25);
+		labCharge->setFixedHeight(25);
 		labCarnum2->setFixedWidth(60);
 		labUsername2->setFixedWidth(60);
 		labBalance2->setFixedWidth(60);
 		labDirection2->setFixedWidth(60);
 		labCharge->setFixedWidth(60);
-		labCarnum2->move(230, 870);
-		labUsername2->move(230, 890);
-		labCharge->move(230, 910);
-		labBalance2->move(230, 930);
-		labDirection2->move(230, 950);
+		labCarnum2->move(210, 870);
+		labUsername2->move(210, 890);
+		labCharge->move(210, 910);
+		labBalance2->move(210, 930);
+		labDirection2->move(210, 950);
+		//Qt::cyan
+		labCarnum2->setStyleSheet("color:cyan;background-color:rgb(0,0,127)");
+		labUsername2->setStyleSheet("color:cyan;background-color:rgb(0,0,127)");
+		labCharge->setStyleSheet("color:cyan;background-color:rgb(0,0,127)");
+		labBalance2->setStyleSheet("color:cyan;background-color:rgb(0,0,127)");
+		labDirection2->setStyleSheet("color:cyan;background-color:rgb(0,0,127)");
+		//labDirection2->setStyleSheet("color:rgb(255,170,0);background-color:rgb(0,0,127)");
 	}
-		
-	DBManager::getInstance()->initCarBalance(smartCar1);
-	DBManager::getInstance()->initCarBalance(smartCar2);
-	DBManager::getInstance()->initCarBalance(smartCar3);
-	DBManager::getInstance()->initCarBalance(smartCar4);
+	//计算车辆余额
+	{
+		DBManager::getInstance()->initCarBalance(smartCar1);
+		DBManager::getInstance()->initCarBalance(smartCar2);
+		DBManager::getInstance()->initCarBalance(smartCar3);
+		DBManager::getInstance()->initCarBalance(smartCar4);
+	}
 }
 void etcView::initWidget()
 {
@@ -594,14 +743,15 @@ void etcView::initWidget()
 	labpos = new QLabel(this);
 	labpos->move(0, 160);
 	labpos->setFixedWidth(400);
-	labpos->setText("当前坐标 ");
+	//labpos->setText("当前坐标 ");
 
 	this->setScene(scene);//添加背景地图
 
 	lab_CurrentTime = new QLabel(this);  //时间
 	lab_CurrentTime->setText("当前时间:" +
 		QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss ddd"));
-	lab_CurrentTime->move(0, 10);
+	lab_CurrentTime->move(10, 1);
+	lab_CurrentTime->setFixedHeight(30);
 
 	btn_SerialPort = new QPushButton(this);  //串口
 	btn_SerialPort->setText("串口");
@@ -618,30 +768,16 @@ void etcView::initWidget()
 	btn_Charge->move(1812, 865);
 	btn_Charge->resize(100, 75);
 
-	btn_Snapshout = new QPushButton(this);  //拍照按钮
-	btn_Snapshout->setText("拍照");
-	btn_Snapshout->move(1812, 940);
-	btn_Snapshout->resize(100, 75);
-
+	btn_Itc = new QPushButton(this);  //模式转换
+	btn_Itc->setText("ITC模式");
+	btn_Itc->move(1812, 940);
+	btn_Itc->resize(100, 75);
 
 	etcCamera *camera = new etcCamera(this); //相机
-	camera->move(1410, 715);
+	camera->move(1408, 715);
 	camera->setWindowFlags(Qt::FramelessWindowHint);
 	connect(this, &etcView::etcPicture, camera, &etcCamera::onCameraSave);
 
-
 	timer = new  QTimer;  //时钟
 	timer->start(1000);
-
-	//QPropertyAnimation*G_anima2 = new QPropertyAnimation(smartCar1, "pos"); //动画
-	//G_anima2->setDuration(1000);
-	//G_anima2->setStartValue(QPointF(1350, 65));
-	//G_anima2->setEndValue(QPointF(400, 65));
-	//G_anima2->start();
-
-	//QPropertyAnimation*animation = new QPropertyAnimation(smartCar1, "rotation"); //动画
-	//animation->setDuration(5000);
-	//animation->setStartValue(-5);
-	//animation->setEndValue(90);
-	//animation->start(QAbstractAnimation::DeleteWhenStopped);
 }

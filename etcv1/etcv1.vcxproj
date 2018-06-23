@@ -441,6 +441,10 @@
   <ItemGroup>
     <ResourceCompile Include="etcv1.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram11.cd" />
+    <None Include="ClassDiagram111.cd" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

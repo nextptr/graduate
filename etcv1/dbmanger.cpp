@@ -43,6 +43,7 @@ bool DBManager::init(void)
 			result varchar,\
 			money varchar,\
 			stationid varchar,\
+            imgdir varchar,\
             remark varchar)";
 		sqlQuery.prepare(sql_create_inspectionrecord); //创建表  
 		if (!sqlQuery.exec()) //查看创建表是否成功  
@@ -164,7 +165,8 @@ bool DBManager::getinspectRecordList(const SearchOption option, int iIndex, int 
 			tmp.Result = sqlQuery.value(5).toString();
 			tmp.Money = sqlQuery.value(6).toString();
 			tmp.StationId = sqlQuery.value(7).toString();
-			tmp.Remark = sqlQuery.value(8).toString();
+			tmp.ImgDir = sqlQuery.value(8).toString();
+			tmp.Remark = sqlQuery.value(9).toString();
 			m_plist->append(tmp);
 		}
 	}
@@ -239,8 +241,8 @@ bool DBManager::insertinspectRecord(etcRecord * pRecord)
 {
 	QSqlQuery sqlQuery(m_db);
 	QString sqlCmd = QString(
-		"INSERT INTO inspectionrecord(detectiontime, platenumber,username, direction, result, money, stationid, remark) \
-			VALUES('%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8');")
+		"INSERT INTO inspectionrecord(detectiontime, platenumber,username, direction, result, money, stationid, remark,imgdir) \
+			VALUES('%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8', '%9');")
 		.arg(pRecord->DetectionTime)
 		.arg(pRecord->PlateNumber)
 		.arg(pRecord->UserName)
@@ -248,7 +250,8 @@ bool DBManager::insertinspectRecord(etcRecord * pRecord)
 		.arg(pRecord->Result)
 		.arg(pRecord->Money)
 		.arg(pRecord->StationId)
-		.arg(pRecord->Remark);
+		.arg(pRecord->Remark)
+		.arg(pRecord->ImgDir);
 
 	sqlQuery.prepare(sqlCmd);
 	if (!sqlQuery.exec())
@@ -345,8 +348,7 @@ bool DBManager::modifyinspectRecord(const etcRecord & record)
 	}
 
 	QString sqlUpdateRecord = QString(
-		"UPDATE inspectionrecord SET detectiontime = '%1', platenumber = '%2', username='%3'\
-			direction = '%4', result = '%5', money = '%6', stationid = '%7',remark='%8' WHERE id = '%9' ;")
+		"UPDATE inspectionrecord SET detectiontime = '%1', platenumber = '%2', username='%3',direction = '%4', result = '%5', money = '%6', stationid = '%7',remark='%8' WHERE id = '%9' ;")
 		.arg(record.DetectionTime)
 		.arg(record.PlateNumber)
 		.arg(record.UserName)

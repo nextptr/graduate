@@ -157,4 +157,8 @@
   <ItemGroup>
     <ResourceCompile Include="etcv1.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram11.cd" />
+    <None Include="ClassDiagram111.cd" />
+  </ItemGroup>
 </Project>

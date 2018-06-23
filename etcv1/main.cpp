@@ -29,8 +29,8 @@ int main(int argc, char *argv[])
 	chargeWidget *chargewidget = new chargeWidget;//收费管理界面
 
 	etcView view;  //主窗口
-	view.showMaximized();
-	view.show();
+	view.showMaximized(); //最大化
+	view.show(); //显示窗口
 
 	QObject::connect(view.btn_Dbmanger, &QPushButton::clicked, dbwidget, &dbWidget::on_btnShowClick);
 	QObject::connect(view.btn_SerialPort, &QPushButton::clicked, portWidget, &etcPortWidget::on_btnShowClick);

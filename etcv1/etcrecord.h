@@ -9,7 +9,6 @@ enum UpOrDown { up, down, deful };  //表格显示的模式
 class SearchOption
 {
 public:
-
 	QString StartTime;	//开始时间
 	QString EndTime;	//结束时间
 	QString PlateNumber;//车牌号 
@@ -41,7 +40,6 @@ class etcRecord : public QObject
 
 public:
 	int id;
-
 	QString DetectionTime;	//开始时间
 	QString PlateNumber;    //车牌号 
 	QString UserName;       //用户名 
@@ -50,6 +48,7 @@ public:
 	QString Money;   	    //余额
 	QString StationId;	    //车站编号
 	QString Remark;	        //备注
+	QString ImgDir;	        //图片路径
 
 public:
 	etcRecord(QObject *parent);
@@ -69,6 +68,7 @@ public:
 		Money = "";
 		StationId = "";
 		Remark = "";
+		ImgDir = "";
 	}
 	etcRecord(const etcRecord & record)
 	{
@@ -81,6 +81,7 @@ public:
 		Money = record.Money;
 		StationId = record.StationId;
 		Remark = record.Remark;
+		ImgDir = record.ImgDir;
 	}
 	etcRecord& operator= (const etcRecord &instance)
 	{
@@ -93,6 +94,7 @@ public:
 		this->Money = instance.Money;
 		this->StationId = instance.StationId;
 		this->Remark = instance.Remark;
+		this->ImgDir = instance.ImgDir;
 		return *this;
 	}
 private:

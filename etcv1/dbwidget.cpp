@@ -130,12 +130,9 @@ void dbWidget::onTableRecordItemClicked(QTableWidgetItem * pItem)
 	if (m_lastCliskItemId != id)
 	{
 		m_lastCliskItemId = id;
-		//显示图片
-		/*HistoryRecord tmpRecord;
-		if (m_HisManager.getAutomobRecord(&m_HisManager.m_HistoryRecordList, id, &tmpRecord))
-		{
-			showRecord(tmpRecord);
-		}*/
+		etcRecord*tmp = getInspectRecord(m_pRecordList, id);
+		m_pLabelScanImage->setPixmap(QPixmap(tmp->ImgDir));
+	
 	}
 }
 
@@ -336,7 +333,7 @@ void dbWidget::initWidget(void)
 			m_pTableRecord->setEditTriggers(QAbstractItemView::DoubleClicked);                              //双击编辑
 			m_pTableRecord->setStyleSheet("selection-background-color:lightblue;");							//设置选中背景色
 			m_pTableRecord->horizontalHeader()->setStyleSheet("QHeaderView::section{background:skyblue;}");	//设置表头背景色
-																											// column width
+			// column width
 			//m_pTableRecord->horizontalHeader()->resizeSection(0, 150);									//设置表头第一列的宽度为150
 			//m_pTableRecord->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);				//表格等宽
 			m_pTableRecord->setColumnHidden(10, true);
@@ -381,8 +378,11 @@ void dbWidget::initWidget(void)
 			m_pLabelScanImage = new QLabel(pGroupScanImage);
 			m_pLabelScanImage->setText(tr("抓拍"));
 			m_pLabelScanImage->setGeometry(0, 16, 400, 300);
-			m_pLabelScanImage->setPixmap(QPixmap("./EtcInfo/123.jpg"));
-			//m_pLabelScanImage->setPixmap(QPixmap("./Resources/anidog01.jpg"));
+			QPixmap pixmap("./EtcInfo/123.jpg");
+			pixmap = pixmap.scaled(400, 300);
+			//m_pLabelScanImage->setPixmap(QPixmap("./EtcInfo/123.jpg"));
+			//m_pLabelScanImage->setPixmap(QPixmap("./EtcInfo/123.jpg"));
+			m_pLabelScanImage->setPixmap(QPixmap("./Resources/anidog01.jpg"));
 		}
 	}
 	QGridLayout *m_pGridLayout = new QGridLayout(); //布局器
@@ -410,6 +410,7 @@ void dbWidget::initConnect(void)
 	connect(m_pBtnSearch, &QPushButton::clicked, this, &dbWidget::on_btnSearchClick);
 	connect(m_pTableRecord, &QTableWidget::customContextMenuRequested, this, &dbWidget::onMenuRequested);
 	connect(m_pActionDeleteItm, &QAction::triggered, this, &dbWidget::onActionDeleteItm);
+	connect(m_pTableRecord, &QTableWidget::itemClicked, this, &dbWidget::onTableRecordItemClicked);
 }
 
 void dbWidget::wheelEvent(QWheelEvent * mWhellEvent)
